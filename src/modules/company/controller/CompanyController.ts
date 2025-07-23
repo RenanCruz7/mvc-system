@@ -1,6 +1,8 @@
-import { Request, Response } from 'express';
+import { Request, response, Response } from 'express';
 import { validateCreateCompany } from '../validators/validateCreateCompany';
 import { CompanyService } from '../../../interfaces/CompanyService';
+import { responseError } from '../../../shared/helpers/responseError';
+import { responseSucess } from '../../../shared/helpers/responseSucess';
 
 export class CompanyController {
     
@@ -11,12 +13,11 @@ export class CompanyController {
             const data = validateCreateCompany(req.body);
 
             const result = await this.companyService.createCompany(data);
-            return res.status(201).json(result);
-        } catch (error) {
-            const err = error as any;
-            return res.status(err.statusCode || 500).json({
-                message: err.message || 'Internal Server Error',
-            });
+            return responseSucess(res, result,"Empresa criada com sucesso", 201);
+        } catch (error: any) {
+            const status = error.status || 500;
+            const message = error.message || 'Internal Server Error';
+            return responseError(res, status, message);
         }
     }
 }
