@@ -4,6 +4,8 @@ import { CompanyService } from '../../../interfaces/CompanyService';
 import { responseError } from '../../../shared/helpers/responseError';
 import { responseSucess } from '../../../shared/helpers/responseSucess';
 import { validateCnpj } from '../validators/validateCnpj';
+import { validateId } from '../validators/validateId';
+import { validateUpdateCompany } from '../validators/validateUpdateCompany';
 
 export class CompanyController {
     
@@ -22,7 +24,8 @@ export class CompanyController {
     }
     
     async findById(req: Request, res: Response, next: Function): Promise<Response> {
-        const company = await this.companyService.findById(req.params.id);
+        const id = validateId(req.params.id);
+        const company = await this.companyService.findById(id);
         return responseSucess(res, company, "Empresa encontrada com sucesso");
     }
 
@@ -34,7 +37,16 @@ export class CompanyController {
     }
 
     async delete(req: Request, res: Response, next: Function): Promise<Response> {
-        const company = await this.companyService.delete(req.params.id);
+        const id = validateId(req.params.id);
+        const company = await this.companyService.delete(id);
         return responseSucess(res, company, "Empresa deletada com sucesso");
+    }
+
+    async update(req: Request, res: Response, next: Function): Promise<Response> {
+        const id = validateId(req.params.id);
+        const data = validateUpdateCompany(req.body);
+
+        const company = await this.companyService.update(id, data);
+        return responseSucess(res, company, "Empresa atualizada com sucesso");
     }
 }
