@@ -8,10 +8,16 @@ export class CompanyController {
     
     constructor(private readonly companyService: CompanyService) {}
 
-    async create(req: Request, res: Response): Promise<Response> {
+    async create(req: Request, res: Response, next: Function): Promise<Response> {
         const data = validateCreateCompany(req.body);
 
         const result = await this.companyService.createCompany(data);
         return responseSucess(res, result,"Empresa criada com sucesso", 201);
     }
+
+    async findAll(req: Request, res: Response, next: Function): Promise<Response> {}
+    
+    async findById(req: Request, res: Response, next: Function): Promise<Response> {}
+
+    async findByCnpj(req: Request, res: Response, next: Function): Promise<Response> {}
 }
