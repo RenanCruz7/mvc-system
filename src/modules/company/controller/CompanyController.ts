@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { validateCreateCompany } from '../validators/validateCreateCompany';
-import { CompanyService } from '../../../interfaces/CompanyService';
+import { CompanyService } from '../../../interfaces/services/CompanyService';
 import { responseSucess } from '../../../shared/helpers/responseSucess';
 import { validateCnpj } from '../validators/validateCnpj';
 import { validateId } from '../validators/validateId';
