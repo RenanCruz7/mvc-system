@@ -1,9 +1,12 @@
 import { Router } from "express";
 import { erroHandler } from "../../../shared/errors/errorHandler";
+import { EmployeeServiceImpl } from "../services/EmployeeService";
+import { EmployeeController } from "../controller/EmployeeController";
 
 const router = Router();
 
-const employeeController = new EmployeeController();
+const employeeService = new EmployeeServiceImpl()
+const employeeController = new EmployeeController(employeeService);
 
 router.post("/employee", (req, res, next) => employeeController.create(req, res, next));
 router.get("/employee", (req, res, next) => employeeController.findByCompanyId(req, res, next));

@@ -1,6 +1,5 @@
 import {Request, Response , NextFunction } from "express"
 import { AppError } from "./AppError"
-import { success } from "zod"
 
 
 export function erroHandler (err: Error, req: Request, res: Response, next: NextFunction){
