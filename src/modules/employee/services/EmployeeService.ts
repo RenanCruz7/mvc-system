@@ -8,20 +8,24 @@ export class EmployeeServiceImpl implements EmployeeService{
 
     constructor(private readonly employeeRepository: EmployeeRepository){}
 
-    create(createEmployeeDTO: CreateEmployeeDTO): Promise<Employee> {
+    async create(createEmployeeDTO: CreateEmployeeDTO): Promise<Employee> {
         const employee = this.employeeRepository.create(createEmployeeDTO)
         return employee
     }
-    update(updateEmployeeDTO: UpdateEmployeeDTO): Promise<Employee> {
-        throw new Error("Method not implemented.");
+    async update(id: string, updateEmployeeDTO: UpdateEmployeeDTO): Promise<Employee> {
+        const employee = await this.employeeRepository.findById(id)
+
+        return await this.employeeRepository.update(id,updateEmployeeDTO)
     }
-    findById(id: string): Promise<Employee> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<Employee> {
+        return await this.employeeRepository.findById(id)
     }
-    findByCompanyId(companyId: string): Promise<Employee[]> {
-        throw new Error("Method not implemented.");
+    async findByCompanyId(companyId: string): Promise<Employee[]> {
+        return await this.employeeRepository.findByCompanyId(companyId)
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: string): Promise<void> {
+        const employee = await this.employeeRepository.findById(id)
+
+        return await this.employeeRepository.delete(id)
     }
 }
