@@ -3,19 +3,19 @@ import { CreateEmployeeDTO } from "../dtos/CreateEmployeeDTO";
 import { AppError } from "../../../shared/errors/AppError";
 
 const createEmployeeSchema = z.object({
-    name: z.string().nonempty("Nome não pode ser vazio"),
-    cpf: z.string().nonempty("CPF deve ter 11 caracteres"),
-    email: z.string().email("Email inválido"),
-    position: z.string().nonempty("Cargo não pode ser vazio"),
-    salary: z.number().nonnegative("Salário deve ser um número positivo"),
-    companyId: z.string().nonempty("ID da empresa não pode ser vazio").uuid(),
+    name: z.string().nonempty("Name cant be empty"),
+    cpf: z.string().nonempty("CPF must have 11 characters"),
+    email: z.string().email("Invalid email"),
+    position: z.string().nonempty("Position cannot be empty"),
+    salary: z.number().nonnegative("Salary must be a positive number"),
+    companyId: z.string().nonempty("Company ID cannot be empty").uuid(),
 });
 
 export async function validateCreateEmployee(data: any): Promise<CreateEmployeeDTO> {
     const parsedData = createEmployeeSchema.safeParse(data);
 
     if (!parsedData.success) {
-        throw new AppError(parsedData.error.errors[0].message || "Dados inválidos", 400);
+        throw new AppError(parsedData.error.errors[0].message || "Invalid data", 400);
     }
 
     return parsedData.data

@@ -10,10 +10,10 @@ export function erroHandler (err: Error, req: Request, res: Response, next: Next
         })
     }
 
-    console.log("Erro inesperado", err)
+    console.log("Unexpected error:", err)
 
     return res.status(500).json({
         success: false,
-        message: "Erro interno do servidor"
+        message: "Internal Server Error"
     })
 }
