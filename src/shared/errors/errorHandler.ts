@@ -1,6 +1,13 @@
 import {Request, Response , NextFunction } from "express"
 import { AppError } from "./AppError"
 
+export const asyncHandler = (fn: Function) =>{
+    return (req: Request, res: Response, next: NextFunction) => {
+        Promise.resolve(fn(req, res, next))
+            .catch(next);
+    }
+}
+
 
 export function erroHandler (err: Error, req: Request, res: Response, next: NextFunction){
     if (err instanceof AppError){

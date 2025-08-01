@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { erroHandler } from "../../../shared/errors/errorHandler";
+import { asyncHandler, erroHandler } from "../../../shared/errors/errorHandler";
 import { EmployeeServiceImpl } from "../services/EmployeeService";
 import { EmployeeController } from "../controller/EmployeeController";
 import { CompanyServiceImpl } from '../../company/services/CompanyService';
@@ -15,11 +15,11 @@ const employeeRepository = new InMemoryEmployeeRepository
 const employeeService = new EmployeeServiceImpl(employeeRepository, companyService);
 const employeeController = new EmployeeController(employeeService);
 
-router.post("/employee", (req, res, next) => employeeController.create(req, res, next));
-router.get("/employee", (req, res, next) => employeeController.findByCompanyId(req, res, next));
-router.get("/employee/:id", (req, res, next) => employeeController.findById(req, res, next));
-router.put("/employee/:id", (req, res, next) => employeeController.update(req, res, next));
-router.delete("/employee/:id", (req, res, next) => employeeController.delete(req, res, next));
+router.post("/employee", asyncHandler(employeeController.create.bind(employeeController)));
+router.get("/employee", asyncHandler(employeeController.findByCompanyId.bind(employeeController)));
+router.get("/employee/:id", asyncHandler(employeeController.findById.bind(employeeController)));
+router.put("/employee/:id", asyncHandler(employeeController.update.bind(employeeController)));
+router.delete("/employee/:id", asyncHandler(employeeController.delete.bind(employeeController)));
 
 router.use(erroHandler);
 

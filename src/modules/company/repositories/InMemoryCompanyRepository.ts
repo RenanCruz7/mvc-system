@@ -4,13 +4,15 @@ import { UpdateCompanyDTO } from "../dtos/UpdateCompanyDTO";
 import { Company } from "../models/Company";
 import { v4 as uuidv4 } from 'uuid';
 
+
+let companys: Company[] = [];
 export class InMemoryCompanyRepository implements CompanyRepository{
-    private companys: Company[] = [];
+   
 
     constructor() {
     }
     async findAll(): Promise<Company[]> {
-        return this.companys;
+        return companys;
     }
 
     async create(companyData: CreateCompanyDTO): Promise<Company> {
@@ -20,26 +22,26 @@ export class InMemoryCompanyRepository implements CompanyRepository{
             createdAt: new Date(),
             updatedAt: new Date()
         }
-        this.companys.push(newCompany);
+        companys.push(newCompany);
         return newCompany;
     }
 
     async update(id: string, updateCompanyDTO: UpdateCompanyDTO): Promise<Company> {
-        const companyIndex = this.companys.findIndex(company => company.id === id);
+        const companyIndex = companys.findIndex(company => company.id === id);
         if (companyIndex === -1) {
             throw new Error('Company does not exist');
         }
         const updatedCompany = {
-            ...this.companys[companyIndex],
+            ...companys[companyIndex],
             ...updateCompanyDTO,
             updatedAt: new Date()
         };
-        this.companys[companyIndex] = updatedCompany;
+        companys[companyIndex] = updatedCompany;
         return updatedCompany;
     }
 
     async findById(id: string): Promise<Company> {
-        const company = this.companys.find(company => company.id === id);
+        const company = companys.find(company => company.id === id);
         if (!company) {
             throw new Error('Company does not exist');
         }
@@ -47,15 +49,15 @@ export class InMemoryCompanyRepository implements CompanyRepository{
     }
 
     async delete(id: string): Promise<void> {
-        const companyIndex = this.companys.findIndex(company => company.id === id);
+        const companyIndex = companys.findIndex(company => company.id === id);
         if (companyIndex === -1) {
             throw new Error('Company does not exist');
         }
-        this.companys.splice(companyIndex, 1);
+        companys.splice(companyIndex, 1);
     }
 
     async findByCnpj(cnpj: string): Promise<Company | null> {
-        const company = this.companys.find(company => company.cnpj === cnpj);
+        const company = companys.find(company => company.cnpj === cnpj);
         return company || null;
     }
 }

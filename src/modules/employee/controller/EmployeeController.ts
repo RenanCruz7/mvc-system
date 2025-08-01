@@ -17,8 +17,9 @@ export class EmployeeController {
     }
 
     async update(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const id = validateId(req.params.id);
         const data = await validateUpdateEmployee(req.body);
-        const employee = this.employeeService.update(data);
+        const employee = this.employeeService.update(id,data);
         return responseSucess(res, employee, "Employee updated successfully");
     }
 
