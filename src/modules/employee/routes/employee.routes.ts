@@ -3,13 +3,15 @@ import { erroHandler } from "../../../shared/errors/errorHandler";
 import { EmployeeServiceImpl } from "../services/EmployeeService";
 import { EmployeeController } from "../controller/EmployeeController";
 import { CompanyServiceImpl } from '../../company/services/CompanyService';
+import { InMemoryEmployeeRepository } from "../repositories/InMemoryEmployeeRepository";
 
 const router = Router();
 
-const employeeRepository = new EmployeeRepository();
+
 const companyService = new CompanyServiceImpl(employeeRepository);
 
-const employeeService = new EmployeeServiceImpl(null, companyService);
+const employeeRepository = new InMemoryEmployeeRepository
+const employeeService = new EmployeeServiceImpl(employeeRepository, companyService);
 const employeeController = new EmployeeController(employeeService);
 
 router.post("/employee", (req, res, next) => employeeController.create(req, res, next));

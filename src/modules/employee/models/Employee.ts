@@ -7,5 +7,5 @@ export interface Employee {
     companyId: string;
     cpf: string;
     updatedAt: Date
-    createAt: Date
+    createdAt: Date
 }

@@ -5,4 +5,6 @@ export interface CreateEmployeeDTO {
     salary: number;
     companyId: string;
     cpf: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
