@@ -1,3 +1,4 @@
+import { CompanyService } from './../../../interfaces/services/CompanyService';
 import { Router } from "express";
 import { CompanyController } from "../controller/CompanyController";
 import { erroHandler } from "../../../shared/errors/errorHandler";
@@ -5,7 +6,8 @@ import { erroHandler } from "../../../shared/errors/errorHandler";
 
 const router = Router();
 
-const companyController = new CompanyController()
+const companyService = new CompanyService();
+const companyController = new CompanyController(companyService);
 
 router.post("/company", (req, res, next) => companyController.create(req,res,next))
 router.get("/company", (req, res, next) => companyController.findAll(req, res, next))
