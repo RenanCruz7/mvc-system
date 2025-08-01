@@ -4,11 +4,12 @@ import { EmployeeServiceImpl } from "../services/EmployeeService";
 import { EmployeeController } from "../controller/EmployeeController";
 import { CompanyServiceImpl } from '../../company/services/CompanyService';
 import { InMemoryEmployeeRepository } from "../repositories/InMemoryEmployeeRepository";
+import { InMemoryCompanyRepository } from "../../company/repositories/InMemoryCompanyRepository";
 
 const router = Router();
 
-
-const companyService = new CompanyServiceImpl(employeeRepository);
+const companyRepository = new InMemoryCompanyRepository();
+const companyService = new CompanyServiceImpl(companyRepository);
 
 const employeeRepository = new InMemoryEmployeeRepository
 const employeeService = new EmployeeServiceImpl(employeeRepository, companyService);

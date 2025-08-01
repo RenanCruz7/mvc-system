@@ -3,10 +3,10 @@ export interface UpdateCompanyDTO {
     phone?: string;
     cnpj: string;
     address?: {
-        street?: string;
-        number?: string;
-        city?: string;
-        state?: string;
-        zipcode?: string;
+        street: string;
+        number: string;
+        city: string;
+        state: string;
+        zipcode: string;
     }
 }
