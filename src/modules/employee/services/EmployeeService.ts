@@ -1,4 +1,5 @@
 import { EmployeeRepository } from "../../../interfaces/repositories/EmployeeRepository";
+import { CompanyService } from "../../../interfaces/services/CompanyService";
 import { EmployeeService } from "../../../interfaces/services/EmployeeService";
 import { NotFoundError, ValidationError } from "../../../shared/errors/AppError";
 import { DocumentValidator } from "../../../shared/utils/documentValidator";
@@ -8,12 +9,18 @@ import { Employee } from "../models/Employee";
 
 export class EmployeeServiceImpl implements EmployeeService{
 
-    constructor(private readonly employeeRepository: EmployeeRepository){}
+    constructor(private readonly employeeRepository: EmployeeRepository, private readonly companyService: CompanyService){}
 
     async create(createEmployeeDTO: CreateEmployeeDTO): Promise<Employee> {
         if(!DocumentValidator.validateCPF(createEmployeeDTO.cpf)){
             throw new ValidationError('CPF is invalid');
         }
+
+        const company = await this.companyService.findById(createEmployeeDTO.companyId);
+        if(!company){
+            throw new NotFoundError('Company does not exist');
+        }
+
         const employee = this.employeeRepository.create(createEmployeeDTO)
         return employee
     }
