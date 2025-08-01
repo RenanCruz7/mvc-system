@@ -8,5 +8,5 @@ export interface CompanyRepository {
     update(id: string, companyData: UpdateCompanyDTO): Promise<Company>;
     findById(id: string): Promise<Company>;
     delete(id: string): Promise<void>;
-    findByCnpj(cnpj: string): Promise<Company>;
+    findByCnpj(cnpj: string): Promise<Company | null>;
 }

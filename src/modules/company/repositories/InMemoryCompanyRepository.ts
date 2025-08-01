@@ -54,11 +54,8 @@ export class InMemoryCompanyRepository implements CompanyRepository{
         this.companys.splice(companyIndex, 1);
     }
 
-    async findByCnpj(cnpj: string): Promise<Company> {
+    async findByCnpj(cnpj: string): Promise<Company | null> {
         const company = this.companys.find(company => company.cnpj === cnpj);
-        if (!company) {
-            throw new Error('Company does not exist');
-        }
-        return company;
+        return company || null;
     }
 }
